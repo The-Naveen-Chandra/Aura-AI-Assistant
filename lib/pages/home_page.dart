@@ -1,4 +1,5 @@
 import 'package:aura/components/feature_box.dart';
+import 'package:aura/services/openai_service.dart';
 import 'package:aura/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final speechToText = SpeechToText();
   String lastWords = '';
+  final OpenAIService openAIService = OpenAIService();
 
   @override
   void initState() {
@@ -40,6 +42,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       lastWords = result.recognizedWords;
     });
+    print(lastWords);
   }
 
   @override
@@ -164,14 +167,15 @@ class _HomePageState extends State<HomePage> {
           if (await speechToText.hasPermission && speechToText.isNotListening) {
             await startListening();
           } else if (speechToText.isListening) {
+            final speech = await openAIService.isArtPromptAPI(lastWords);
+            print(speech);
             await stopListening();
           } else {
             initSpeechToText();
           }
         },
-        backgroundColor: Pallete.firstSuggestionBoxColor,
-        child: const Icon(
-          Icons.mic,
+        child: Icon(
+          speechToText.isListening ? Icons.stop : Icons.mic,
         ),
       ),
     );
