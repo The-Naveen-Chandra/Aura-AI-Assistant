@@ -1,5 +1,6 @@
-import 'package:aura/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:aura/pages/home_page.dart';
+import 'package:aura/theme/pallete.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,11 @@ class MyApp extends StatelessWidget {
       title: 'Aura',
       theme: ThemeData.light(
         useMaterial3: true,
+      ).copyWith(
+        scaffoldBackgroundColor: Pallete.whiteColor,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Pallete.whiteColor,
+        ),
       ),
       home: const HomePage(),
     );
